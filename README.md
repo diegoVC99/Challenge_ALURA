@@ -2,13 +2,13 @@
 
 ## Descripción general del proyecto
 
-Este proyecto consiste en una aplicación web desarrollada con **Streamlit** e integrada con un agente de **OCI Generative AI Agents** mediante el **Oracle Cloud Infrastructure Python SDK**. Su objetivo es ofrecer una interfaz conversacional simple desde navegador para consultar información procesada por un agente IA desplegado en Oracle Cloud.
+Este proyecto presenta el desarrollo e implementación de una aplicación web construida con **Streamlit** e integrada con un agente de **OCI Generative AI Agents** mediante el **Oracle Cloud Infrastructure Python SDK**. Su propósito es proporcionar una interfaz conversacional accesible desde el navegador para consultar información procesada por un agente de inteligencia artificial desplegado en Oracle Cloud Infrastructure.
 
-La solución permite que un usuario escriba preguntas en una interfaz tipo chat y reciba respuestas generadas por el agente configurado en OCI. La aplicación fue desplegada públicamente usando **Railway**, lo que facilita su acceso sin necesidad de instalar software adicional en el equipo del usuario final.
+La solución permite que el usuario formule preguntas en una interfaz tipo chat y reciba respuestas generadas por el agente configurado en OCI. La aplicación fue desplegada públicamente utilizando **Railway** como plataforma de hosting, lo que facilita su acceso sin requerir la instalación de software adicional en el equipo del usuario final.
 
 ## Arquitectura de la solución implementada
 
-La arquitectura de la solución sigue un flujo cliente-aplicación-servicio cloud:
+La arquitectura de la solución sigue un enfoque de tipo cliente-aplicación-servicio en la nube:
 
 ```text
 Usuario final
@@ -26,16 +26,18 @@ Agente IA configurado en Oracle Cloud
 
 ### Flujo de funcionamiento
 
-1. El usuario abre la aplicación web desplegada en Railway.
-2. Escribe una pregunta en la interfaz de chat.
-3. La aplicación `app.py` recibe la consulta.
-4. El SDK de OCI autentica la solicitud usando variables de entorno.
+1. El usuario accede a la aplicación web publicada en Railway.
+2. Ingresa una pregunta en la interfaz de chat.
+3. El archivo `app.py` recibe la consulta del usuario.
+4. El SDK de OCI autentica la solicitud mediante variables de entorno seguras.
 5. La aplicación crea o reutiliza una sesión conversacional con el agente.
-6. La pregunta se envía al **OCI Generative AI Agent Runtime**.
-7. El agente procesa la consulta y genera una respuesta.
-8. La respuesta se muestra en pantalla al usuario.
+6. La consulta se envía al **OCI Generative AI Agent Runtime**.
+7. El agente procesa la solicitud y genera una respuesta basada en su configuración.
+8. La respuesta se presenta en la interfaz para el usuario final.
 
 ## Tecnologías y herramientas utilizadas
+
+La implementación combina tecnologías de desarrollo web, automatización y servicios cloud para construir una solución ligera, segura y fácilmente desplegable.
 
 ### Lenguajes y framework
 
@@ -74,10 +76,12 @@ OCI_AGENT/
 
 ## Instrucciones para ejecutar el proyecto
 
+A continuación se describen los pasos necesarios para ejecutar la solución de forma local y también para desplegarla en un entorno público.
+
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/diegoVC99/Challenge_ALURA.git
+git clone <URL_DEL_REPOSITORIO>
 cd OCI_AGENT
 ```
 
@@ -92,7 +96,7 @@ python -m venv .venv
 #### En Windows
 
 ```bash
-.\.venv\Scripts\activate
+.\\.venv\\Scripts\\activate
 ```
 
 #### En Linux o macOS
@@ -125,7 +129,7 @@ Ejemplo:
 OCI_AGENT_ENDPOINT_ID=ocid1.genaiagentendpoint.oc1.sa-saopaulo-1.xxxxx
 OCI_AGENT_RUNTIME_ENDPOINT=https://agent-runtime.generativeai.sa-saopaulo-1.oci.oraclecloud.com
 OCI_USER_OCID=ocid1.user.oc1..xxxxx
-OCI_FINGERPRINT=aa:bb:cc:dd:ee:ff:11:22:33:44:55:66:77:88:99:00
+OCI_FINGERPRINT=aa:bb:cc:dd:ee:ff:11:22:33:44:55:66
 OCI_TENANCY_OCID=ocid1.tenancy.oc1..xxxxx
 OCI_REGION=sa-saopaulo-1
 OCI_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----
@@ -147,7 +151,7 @@ python -m streamlit run app.py
 
 ## Ejemplos de preguntas que el agente puede responder
 
-Estas preguntas dependen del conocimiento cargado en el agente dentro de OCI. Algunos ejemplos típicos son:
+Las preguntas que el agente puede responder dependen del conocimiento cargado en OCI. Algunos ejemplos de consultas habituales son:
 
 - "¿Cuál es la política de vacaciones de la empresa?"
 - "¿Qué dice el procedimiento de atención de incidentes?"
@@ -158,7 +162,7 @@ Estas preguntas dependen del conocimiento cargado en el agente dentro de OCI. Al
 
 ## Ejemplos de respuestas generadas por el agente
 
-Los siguientes ejemplos son ilustrativos del tipo de respuesta que puede entregar la aplicación:
+Los siguientes ejemplos son ilustrativos del tipo de respuesta que puede generar la aplicación cuando el conocimiento necesario está disponible en el agente:
 
 ### Ejemplo 1
 
@@ -201,6 +205,36 @@ El documento de onboarding describe las etapas de inducción, presentación del 
 ```text
 Primero se debe identificar el tipo de incidencia, luego registrar el caso en el canal definido por la empresa, adjuntar la evidencia correspondiente y notificar al área responsable para su seguimiento.
 ```
+
+## Evidencia del Deploy en OCI
+
+La aplicación fue desplegada y validada en la nube utilizando Railway como capa de hosting para la interfaz web, mientras que la lógica de inteligencia artificial se conecta al entorno de OCI.
+
+### Enlace público de la aplicación
+
+- **URL pública:** https://challengealura-production.up.railway.app/
+
+### Captura de pantalla del despliegue
+
+Incluye aquí una captura de pantalla que muestre la aplicación ejecutándose correctamente en el navegador, idealmente con:
+
+- La interfaz de Streamlit visible.
+- Un mensaje enviado al agente.
+- Una respuesta generada correctamente.
+
+Ejemplo de uso en Markdown:
+
+```md
+
+```
+
+### Evidencia recomendada
+
+Para una mejor presentación, la captura debería mostrar:
+
+- La URL pública abierta en el navegador.
+- El título de la aplicación.
+- Una conversación activa con el agente.
 
 ## Archivo `requirements.txt`
 
