@@ -215,10 +215,13 @@ La aplicación fue desplegada y validada en la nube utilizando Railway como capa
 - **URL pública:** https://challengealura-production.up.railway.app/
 
 ### Captura de pantalla del despliegue
- **Interfaz central:**
+
+**Interfaz central:**
+
 <img width="886" height="448" alt="image" src="https://github.com/user-attachments/assets/fb3a3d6c-6d82-4c52-88d4-3b096e76e338" />
 
 **Interfaz con las respuestas:**
+
 <img width="886" height="452" alt="image" src="https://github.com/user-attachments/assets/e6581a38-e6d6-48d4-a722-cb3f7d86f99c" />
 
 ## Archivo `requirements.txt`
