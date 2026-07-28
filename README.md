@@ -1,32 +1,65 @@
 # OCI Agent Streamlit Assistant
 
-Aplicación web desarrollada con **Streamlit** e integrada con **OCI Generative AI Agents** mediante el **Oracle Cloud Infrastructure Python SDK**. El proyecto permite publicar un asistente conversacional accesible desde navegador y desplegarlo en **Railway** usando variables de entorno para la autenticación.
+## Descripción general del proyecto
 
-## Descripción
+Este proyecto consiste en una aplicación web desarrollada con **Streamlit** e integrada con un agente de **OCI Generative AI Agents** mediante el **Oracle Cloud Infrastructure Python SDK**. Su objetivo es ofrecer una interfaz conversacional simple desde navegador para consultar información procesada por un agente IA desplegado en Oracle Cloud.
 
-Este proyecto conecta una interfaz web simple en Streamlit con un agente IA ya creado en Oracle Cloud Infrastructure. La aplicación crea una sesión conversacional, envía mensajes al runtime del agente y muestra las respuestas en una interfaz tipo chat.
+La solución permite que un usuario escriba preguntas en una interfaz tipo chat y reciba respuestas generadas por el agente configurado en OCI. La aplicación fue desplegada públicamente usando **Railway**, lo que facilita su acceso sin necesidad de instalar software adicional en el equipo del usuario final.
 
-## Arquitectura
+## Arquitectura de la solución implementada
+
+La arquitectura de la solución sigue un flujo cliente-aplicación-servicio cloud:
 
 ```text
-Usuario
-  ↓
-App web en Streamlit
-  ↓
+Usuario final
+   ↓
+Aplicación web en Streamlit
+   ↓
 OCI Python SDK
-  ↓
+   ↓
 OCI Generative AI Agent Runtime
-  ↓
-OCI Agent Endpoint
+   ↓
+Agent Endpoint en OCI
+   ↓
+Agente IA configurado en Oracle Cloud
 ```
 
-## Tecnologías usadas
+### Flujo de funcionamiento
 
-- Python
-- Streamlit
-- Oracle Cloud Infrastructure Python SDK (`oci`)
-- Railway
-- GitHub
+1. El usuario abre la aplicación web desplegada en Railway.
+2. Escribe una pregunta en la interfaz de chat.
+3. La aplicación `app.py` recibe la consulta.
+4. El SDK de OCI autentica la solicitud usando variables de entorno.
+5. La aplicación crea o reutiliza una sesión conversacional con el agente.
+6. La pregunta se envía al **OCI Generative AI Agent Runtime**.
+7. El agente procesa la consulta y genera una respuesta.
+8. La respuesta se muestra en pantalla al usuario.
+
+## Tecnologías y herramientas utilizadas
+
+### Lenguajes y framework
+
+- **Python**
+- **Streamlit**
+
+### Servicios cloud
+
+- **Oracle Cloud Infrastructure (OCI)**
+- **OCI Generative AI Agents**
+- **OCI Generative AI Agent Runtime**
+- **Railway**
+
+### Herramientas de desarrollo
+
+- **Visual Studio Code**
+- **Git**
+- **GitHub**
+- **OCI Cloud Shell**
+
+### Librerías principales
+
+- `streamlit`
+- `oci`
 
 ## Estructura del proyecto
 
@@ -39,20 +72,44 @@ OCI_AGENT/
 └── README.md
 ```
 
-## Requisitos
+## Instrucciones para ejecutar el proyecto
 
-Antes de ejecutar o desplegar el proyecto, se necesita:
+### 1. Clonar el repositorio
 
-- Python 3.10 o superior
-- Un agente creado en OCI
-- Un Agent Endpoint activo en OCI
-- Credenciales OCI válidas
-- Git instalado
-- Cuenta en GitHub y Railway
+```bash
+git clone https://github.com/diegoVC99/Challenge_ALURA.git
+cd OCI_AGENT
+```
 
-## Variables de entorno
+### 2. Crear un entorno virtual
 
-La aplicación usa estas variables de entorno:
+```bash
+python -m venv .venv
+```
+
+### 3. Activar el entorno virtual
+
+#### En Windows
+
+```bash
+.\.venv\Scripts\activate
+```
+
+#### En Linux o macOS
+
+```bash
+source .venv/bin/activate
+```
+
+### 4. Instalar dependencias
+
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Configurar variables de entorno
+
+Se deben definir las siguientes variables:
 
 - `OCI_AGENT_ENDPOINT_ID`
 - `OCI_AGENT_RUNTIME_ENDPOINT`
@@ -62,7 +119,7 @@ La aplicación usa estas variables de entorno:
 - `OCI_REGION`
 - `OCI_PRIVATE_KEY`
 
-### Ejemplo
+Ejemplo:
 
 ```env
 OCI_AGENT_ENDPOINT_ID=ocid1.genaiagentendpoint.oc1.sa-saopaulo-1.xxxxx
@@ -74,82 +131,89 @@ OCI_REGION=sa-saopaulo-1
 OCI_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----
 ```
 
-> `OCI_PRIVATE_KEY` puede guardarse en una sola línea usando `\n` para representar los saltos de línea.
-
-## Instalación local
-
-1. Clonar el repositorio:
-
-```bash
-git clone <TU_REPO_URL>
-cd OCI_AGENT
-```
-
-2. Crear entorno virtual:
-
-```bash
-python -m venv .venv
-```
-
-3. Activar entorno virtual:
-
-### Windows
-
-```bash
-.\.venv\Scripts\activate
-```
-
-### Linux / macOS
-
-```bash
-source .venv/bin/activate
-```
-
-4. Instalar dependencias:
-
-```bash
-pip install -r requirements.txt
-```
-
-## Ejecución local
-
-Con las variables de entorno ya configuradas, ejecutar:
+### 6. Ejecutar la aplicación localmente
 
 ```bash
 python -m streamlit run app.py
 ```
 
-La aplicación normalmente se abrirá en:
+### 7. Despliegue en Railway
+
+1. Subir el proyecto a GitHub.
+2. Crear un nuevo proyecto en Railway desde el repositorio.
+3. Agregar las variables de entorno.
+4. Configurar el dominio público desde **Networking > Public Networking**.
+5. Usar el puerto correcto detectado por la aplicación, por ejemplo `8080`.
+
+## Ejemplos de preguntas que el agente puede responder
+
+Estas preguntas dependen del conocimiento cargado en el agente dentro de OCI. Algunos ejemplos típicos son:
+
+- "¿Cuál es la política de vacaciones de la empresa?"
+- "¿Qué dice el procedimiento de atención de incidentes?"
+- "Resume el documento de onboarding para nuevos empleados."
+- "¿Cuáles son las funciones del área comercial?"
+- "¿Qué pasos se deben seguir para registrar una incidencia interna?"
+- "Explícame el contenido del manual operativo."
+
+## Ejemplos de respuestas generadas por el agente
+
+Los siguientes ejemplos son ilustrativos del tipo de respuesta que puede entregar la aplicación:
+
+### Ejemplo 1
+
+**Pregunta:**
 
 ```text
-http://localhost:8501
+¿Cuál es la política de vacaciones de la empresa?
 ```
 
-## Despliegue en Railway
+**Respuesta esperada del agente:**
 
-### 1. Subir el proyecto a GitHub
-
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin <TU_REPO_URL>
-git push -u origin main
+```text
+La política de vacaciones indica que los colaboradores deben coordinar sus días de descanso con su jefe inmediato y registrar la solicitud con anticipación según el procedimiento interno establecido.
 ```
 
-### 2. Crear proyecto en Railway
+### Ejemplo 2
 
-- Ir a Railway
-- Seleccionar **New Project**
-- Elegir **Deploy from GitHub Repo**
-- Seleccionar el repositorio
+**Pregunta:**
 
-### 3. Configurar variables
+```text
+Resume el documento de onboarding para nuevos empleados.
+```
 
-Agregar en Railway las mismas variables de entorno usadas localmente.
+**Respuesta esperada del agente:**
 
-### 4. Configurar `railway.json`
+```text
+El documento de onboarding describe las etapas de inducción, presentación del equipo, acceso a herramientas, revisión de políticas internas y seguimiento durante los primeros días de ingreso.
+```
+
+### Ejemplo 3
+
+**Pregunta:**
+
+```text
+¿Qué pasos se deben seguir para registrar una incidencia interna?
+```
+
+**Respuesta esperada del agente:**
+
+```text
+Primero se debe identificar el tipo de incidencia, luego registrar el caso en el canal definido por la empresa, adjuntar la evidencia correspondiente y notificar al área responsable para su seguimiento.
+```
+
+## Archivo `requirements.txt`
+
+Contenido mínimo sugerido:
+
+```txt
+streamlit
+oci
+```
+
+## Configuración de Railway
+
+Archivo `railway.json` sugerido:
 
 ```json
 {
@@ -163,74 +227,49 @@ Agregar en Railway las mismas variables de entorno usadas localmente.
 }
 ```
 
-### 5. Habilitar dominio público
-
-En Railway:
-
-- Ir a **Settings > Networking > Public Networking**
-- Elegir **Generate Domain**
-- Usar el puerto donde la app esté escuchando, por ejemplo `8080`
-
-## Archivo `requirements.txt`
-
-Ejemplo mínimo:
-
-```txt
-streamlit
-oci
-```
-
-## Funcionalidades principales
-
-- Interfaz de chat en Streamlit
-- Integración con OCI Agent Runtime
-- Manejo de variables de entorno para seguridad
-- Despliegue público en Railway
-- Sesión conversacional persistente durante el uso de la app
-
 ## Troubleshooting
 
 ### Error: `Authorization failed or requested resource not found`
 
-Revisar:
+Verificar:
 
-- Que `OCI_AGENT_ENDPOINT_ID` sea el OCID del endpoint y no del agente
-- Que el endpoint esté en estado **Active**
-- Que la región del endpoint y del runtime coincidan
-- Que el usuario OCI tenga permisos suficientes
+- que el `OCI_AGENT_ENDPOINT_ID` sea el OCID del endpoint y no del agente
+- que el endpoint esté en estado **Active**
+- que la región configurada coincida con la del runtime
+- que el usuario tenga permisos correctos en OCI
 
 ### La URL pública no abre en Railway
 
-Revisar:
+Verificar:
 
-- Que el servicio esté realmente **online**
-- Que exista **Public Networking**
-- Que el dominio esté generado para el puerto correcto
-- Que la app escuche en `0.0.0.0` y en `$PORT`
+- que el servicio esté online
+- que exista un dominio en **Public Networking**
+- que el dominio apunte al puerto correcto
+- que la aplicación escuche en `0.0.0.0`
 
-### Problemas con la private key
+### Problemas con la clave privada
 
-Revisar:
+Verificar:
 
-- Que no tenga comillas extra
-- Que conserve `BEGIN PRIVATE KEY` y `END PRIVATE KEY`
-- Que si está en una sola línea use `\n`
+- que no tenga comillas extra
+- que incluya `BEGIN PRIVATE KEY` y `END PRIVATE KEY`
+- que si se coloca en una línea use `\n`
 
 ## Seguridad
 
-- No subir credenciales al repositorio
-- No hardcodear secretos en `app.py`
-- Usar siempre variables de entorno
-- Evitar compartir el contenido real de la private key
+- No incluir secretos en el repositorio.
+- No hardcodear credenciales en `app.py`.
+- Utilizar siempre variables de entorno.
+- Limitar el acceso a las credenciales OCI.
 
 ## Mejoras futuras
 
-- Historial de conversaciones
-- UI más personalizada
-- Autenticación de usuarios finales
-- Registro de logs conversacionales
-- Integración con base documental empresarial
+- Historial persistente de conversaciones.
+- Interfaz visual más personalizada.
+- Control de autenticación para usuarios finales.
+- Panel administrativo de consultas.
+- Integración con una base documental más amplia.
 
 ## Autor
 
-Proyecto desarrollado por Diego Valderrama como práctica de integración entre Streamlit, Railway y OCI Generative AI Agents.
+Proyecto desarrollado por Diego Valderrama como implementación práctica de un asistente conversacional basado en Streamlit, Railway y OCI Generative AI Agents.
